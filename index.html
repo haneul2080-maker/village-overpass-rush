@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Village Overpass Rush</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <div id="game-root">
+      <canvas id="game-canvas" aria-label="Village Overpass Rush game canvas"></canvas>
+
+      <div id="hud" class="hud">
+        <div class="top-row">
+          <div class="panel compact">
+            <span class="label">POS</span>
+            <strong id="positionText">1st / 2</strong>
+          </div>
+          <div class="panel compact">
+            <span class="label">LAP</span>
+            <strong><span id="lapText">1</span> / <span id="totalLapsText">3</span></strong>
+          </div>
+          <div class="panel time-panel">
+            <span class="label">TIME</span>
+            <strong id="timeText">00:00.000</strong>
+            <span class="label second">BEST</span>
+            <strong id="bestText">--:--.---</strong>
+          </div>
+        </div>
+
+        <div id="countdown" class="countdown">3</div>
+        <div id="comboText" class="combo-text hidden">DRIFT READY</div>
+
+        <div class="left-stack">
+          <div class="track-name">Village Overpass Rush</div>
+          <div id="noticeText" class="notice">WASD / Arrow keys to drive</div>
+        </div>
+
+        <div class="bottom-row">
+          <div class="speedometer">
+            <div class="speed-value"><span id="speedText">0</span></div>
+            <div class="speed-unit">km/h</div>
+          </div>
+
+          <div class="boost-wrap">
+            <div class="boost-labels">
+              <span>BOOST</span>
+              <span id="boostHint">CTRL</span>
+            </div>
+            <div class="gauge">
+              <div id="boostFill" class="gauge-fill boost-fill"></div>
+            </div>
+            <div class="boost-labels mini">
+              <span>MINI</span>
+              <span id="miniBoostText">0%</span>
+            </div>
+            <div class="gauge small">
+              <div id="miniFill" class="gauge-fill mini-fill"></div>
+            </div>
+          </div>
+
+          <canvas id="minimap" width="220" height="150" aria-label="minimap"></canvas>
+        </div>
+
+        <button id="soundButton" class="sound-button" type="button" aria-label="Toggle sound">Sound On</button>
+      </div>
+
+      <div id="resultOverlay" class="overlay hidden">
+        <div class="result-box">
+          <p class="eyebrow">FINISH</p>
+          <h1>Village Overpass Rush</h1>
+          <div class="result-grid">
+            <span>Total</span><strong id="resultTotal">--:--.---</strong>
+            <span>Best Lap</span><strong id="resultBestLap">--:--.---</strong>
+            <span>Saved Record</span><strong id="resultRecord">--:--.---</strong>
+          </div>
+          <p class="restart-copy">Press R to restart</p>
+        </div>
+      </div>
+
+      <div id="loadError" class="load-error hidden">
+        Three.js could not be loaded. Connect to the internet or run a local build with Three.js vendored.
+      </div>
+    </div>
+
+    <script>
+      window.loadGameScript = function () {
+        const script = document.createElement("script");
+        script.src = "./src/game.js";
+        document.body.appendChild(script);
+      };
+      window.loadThreeFallback = function () {
+        const script = document.createElement("script");
+        script.src = "https://cdnjs.cloudflare.com/ajax/libs/three.js/0.148.0/three.min.js";
+        script.onload = window.loadGameScript;
+        script.onerror = function () {
+          document.getElementById("loadError")?.classList.remove("hidden");
+        };
+        document.body.appendChild(script);
+      };
+    </script>
+    <script src="./vendor/three.min.js" onload="window.loadGameScript()" onerror="window.loadThreeFallback()"></script>
+  </body>
+</html>
